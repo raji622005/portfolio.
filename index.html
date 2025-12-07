@@ -1,0 +1,831 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="color-scheme" content="dark light" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>A. Rajalakshmi | Portfolio</title>
+
+  <style>
+    /* ======= GLOBAL THEME ======= */
+    :root {
+      --bg-0: #0b1120;
+      --bg-1: #111827;
+      --accent: #10b981;
+      --text: #f1f5f9;
+      --muted: #94a3b8;
+      --brand-2: #34d399;
+      --radius: 16px;
+    }
+    @keyframes fadeIn {
+  0% { opacity: 0; transform: translateY(30px); }
+  100% { opacity: 1; transform: translateY(0); }
+}
+@keyframes zoomIn {
+  0% { transform: scale(0.8); opacity: 0; }
+  100% { transform: scale(1); opacity: 1; }
+}
+@keyframes glow {
+  0% { box-shadow: 0 0 10px #10B981; }
+  50% { box-shadow: 0 0 25px #10B981; }
+  100% { box-shadow: 0 0 10px #10B981; }
+}
+@keyframes modalFade {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      scroll-behavior: smooth;
+      font-family: 'Poppins', sans-serif;
+    }
+
+    body {
+      background-color: var(--bg-0);
+      color: var(--text);
+      line-height: 1.6;
+      overflow-x: hidden;
+    }
+
+    /* ====== NAVBAR ====== */
+    header.navbar {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      background: var(--bg-1);
+      padding: 1rem 2rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      z-index: 999;
+      border-bottom: 1px solid rgba(255,255,255,0.1);
+    }
+
+    .logo {
+      color: var(--accent);
+      font-weight: 700;
+      font-size: 1.5rem;
+    }
+
+    nav ul {
+      display: flex;
+      gap: 2rem;
+      list-style: none;
+    }
+
+    nav a {
+      color: var(--text);
+      text-decoration: none;
+      font-weight: 500;
+      transition: color 0.3s;
+    }
+    nav a:hover {
+      color: var(--accent);
+    }
+
+    /* ===== MOBILE MENU ===== */
+    #menuBtn {
+      display: none;
+      flex-direction: column;
+      gap: 5px;
+      cursor: pointer;
+    }
+    #menuBtn span {
+      width: 28px;
+      height: 3px;
+      background: var(--text);
+      border-radius: 5px;
+      transition: 0.3s;
+    }
+
+    @media (max-width: 768px) {
+      nav ul {
+        position: fixed;
+        right: -100%;
+        top: 70px;
+        flex-direction: column;
+        width: 200px;
+        background: var(--bg-1);
+        padding: 1rem;
+        text-align: center;
+        border-radius: 10px 0 0 10px;
+        transition: right 0.3s ease;
+      }
+      nav ul.open {
+        right: 0;
+      }
+
+      #menuBtn {
+        display: flex;
+      }
+
+      #menuBtn.active span:nth-child(1) {
+        transform: rotate(45deg) translateY(8px);
+      }
+      #menuBtn.active span:nth-child(2) {
+        opacity: 0;
+      }
+      #menuBtn.active span:nth-child(3) {
+        transform: rotate(-45deg) translateY(-8px);
+      }
+    }
+
+    /* ====== SECTIONS ====== */
+    section, header#home {
+      padding: 100px 20px;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+    }
+
+    h1, h2 {
+      color: var(--accent);
+      margin-bottom: 1rem;
+    }
+
+    p {
+      color: var(--muted);
+      max-width: 700px;
+    }
+
+    .btn {
+      background: var(--accent);
+      color: white;
+      padding: 10px 22px;
+      border-radius: 8px;
+      border: none;
+      cursor: pointer;
+      text-decoration: none;
+      font-weight: 600;
+      transition: background 0.3s;
+    }
+    .btn:hover {
+      background: #059669;
+    }
+
+    .btn.ghost {
+      background: transparent;
+      border: 1px solid var(--accent);
+    }
+    .btn.ghost:hover {
+      background: var(--accent);
+      color: white;
+    }
+
+    .chip {
+      display: inline-block;
+      background: var(--accent);
+      color: white;
+      padding: 6px 12px;
+      border-radius: 12px;
+      margin: 4px;
+      font-weight: 500;
+    }
+
+    .card {
+      background: var(--bg-1);
+      padding: 1.5rem;
+      border-radius: var(--radius);
+      margin: 1rem;
+      box-shadow: 0 4px 10px rgba(0,0,0,0.3);
+    }
+
+    /* ===== REVEAL ANIMATION ===== */
+    .reveal {
+      opacity: 0;
+      transform: translateY(40px);
+      transition: all 0.8s ease;
+    }
+    .reveal.on {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    /* ===== BACK TO TOP ===== */
+    #toTop {
+      position: fixed;
+      bottom: 25px;
+      right: 25px;
+      background: var(--accent);
+      color: white;
+      padding: 8px 14px;
+      border-radius: 8px;
+      text-decoration: none;
+      display: none;
+    }
+    #toTop.show {
+      display: inline-block;
+    }
+.visible {
+      opacity: 1 !important;
+      transform: translateY(0) scale(1) !important;
+      box-shadow: 0 0 20px rgba(52,211,153,0.4) !important;
+    }
+    /* Profile image */
+    .profile {
+      width: 180px;
+      border-radius: 50%;
+      border: 3px solid var(--accent);
+      margin-bottom: 1.5rem;
+    }
+
+  </style>
+</head>
+
+<body>
+  <!-- NAVBAR -->
+  <header class="navbar">
+    <div class="logo">A.Rajalakshmi</div>
+    <nav>
+      <ul id="navLinks" class="nav-links">
+        <li><a href="#home">Home</a></li>
+        <li><a href="#about">About</a></li>
+        <li><a href="#skills">Skills</a></li>
+        <li><a href="#projects">Projects</a></li>
+        <li><a href="#contact">Contact</a></li>
+      </ul>
+    </nav>
+    <div id="menuBtn">
+      <span></span><span></span><span></span>
+    </div>
+  </header>
+
+  <!-- HOME -->
+  <header id="home" aria-label="Home">
+    <div class="container reveal stagger" id="homeBox" style="animation:fadeIn 1.5s ease forwards;">
+    <img src="profile.jpeg" alt="A. Rajalakshmi" 
+      class="profile animated" 
+      onclick="openModal()"
+      style="width:180px; height:180px; border-radius:50%; border:4px solid #10B981;
+             box-shadow:0 0 20px rgba(16,185,129,0.5);
+             cursor:pointer; transition:all 0.5s ease; animation:zoomIn 1.2s ease;">
+    
+    <!-- Modal -->
+    <div id="imageModal" 
+      class="modal" 
+      style="display:none; position:fixed; top:0; left:0; width:100%; height:100%;
+             background:rgba(0,0,0,0.9); z-index:9999; justify-content:center; align-items:center; animation:modalFade 0.4s ease;">
+      <span onclick="closeModal()" 
+        style="position:absolute; top:20px; right:30px; font-size:35px; color:#fff; cursor:pointer;">&times;</span>
+      <img src="profile.jpeg" 
+        alt="Full Image" 
+        style="max-width:80%; max-height:80%; border-radius:15px; animation:zoomIn 0.5s ease; box-shadow:0 0 25px #10B981;">
+    </div>
+
+    <h1 class="title fade-in" 
+      style="color:#10B981; font-size:2.3rem; margin-top:25px; animation:fadeIn 2s ease;">A. Rajalakshmi</h1>
+    
+    <p class="sub slide-up" 
+      style="max-width:700px; margin:15px auto; color:#94a3b8; line-height:1.6;
+             animation:fadeIn 2.5s ease;">Exploring the intersection of code and data — a fresher eager to grow into a skilled full-stack developer with Python, SQL, and React.</p>
+
+    <div class="actions" style="margin-top:25px; animation:fadeIn 2.8s ease;">
+      <a href="https://github.com/raji622005" target="_blank" 
+         style="background:#10B981; color:white; padding:12px 28px; border-radius:10px; margin:10px;
+                text-decoration:none; font-weight:bold; transition:all 0.4s ease;
+                display:inline-block;"
+         onmouseover="this.style.background='#059669'; this.style.transform='scale(1.08)'; this.style.boxShadow='0 0 20px #10B981';"
+         onmouseout="this.style.background='#10B981'; this.style.transform='scale(1)'; this.style.boxShadow='none';">
+         GitHub</a>
+
+      <a href="https://www.linkedin.com/in/rajalakshmi0602" target="_blank"
+         style="background:transparent; border:2px solid #10B981; color:#10B981;
+                padding:12px 28px; border-radius:10px; margin:10px; text-decoration:none;
+                font-weight:bold; transition:all 0.4s ease; display:inline-block;"
+         onmouseover="this.style.background='#10B981'; this.style.color='white'; this.style.transform='scale(1.08)'; this.style.boxShadow='0 0 20px #10B981';"
+         onmouseout="this.style.background='transparent'; this.style.color='#10B981'; this.style.transform='scale(1)'; this.style.boxShadow='none';">
+         LinkedIn</a>
+
+      <a href="your-resume-link.pdf" target="_blank"
+         style="background:#10B981; color:white; padding:12px 28px; border-radius:10px; margin:10px;
+                text-decoration:none; font-weight:bold; transition:all 0.4s ease;
+                display:inline-block;"
+         onmouseover="this.style.background='#059669'; this.style.transform='scale(1.08)'; this.style.boxShadow='0 0 20px #10B981';"
+         onmouseout="this.style.background='#10B981'; this.style.transform='scale(1)'; this.style.boxShadow='none';">
+         Resume</a>
+    </div>
+  </div>
+
+  </header>
+
+  <section id="about" aria-label="About" 
+  style="max-width:1000px; margin:auto; padding:40px 20px; animation:fadeInUp 1.5s ease;">
+
+  <div class="container about-wrap reveal" style="text-align:center;">
+    <h2 style="color:#10B981; font-size:2rem; margin-bottom:30px; animation:zoomIn 1.3s ease;">
+      About Me
+    </h2>
+
+    <div class="split stagger" 
+         style="display:flex; flex-direction:column; align-items:center; gap:25px; animation:slideIn 1.5s ease;">
+
+      <p style="color:#94a3b8; font-size:1.1rem; line-height:1.8; max-width:800px; text-align:justify;
+                animation:fadeInUp 1.8s ease;">
+        I’m a fresher passionate about full-stack development and data analytics, with skills in 
+        <strong style="color:#10B981;">Python</strong>, HTML, CSS, JavaScript, and React. 
+        I practice coding challenges on 
+        <a href="https://exercism.org/" target="_blank" 
+           style="color:#10B981; text-decoration:none; font-weight:bold;">Exercism</a>
+        and 
+        <a href="https://open.kattis.com/" target="_blank" 
+           style="color:#10B981; text-decoration:none; font-weight:bold;">Kattis</a>. 
+        My goal is to keep learning, keep building, and contribute to meaningful tech solutions.
+      </p>
+
+      <div class="card" 
+           style="background-color:#1e293b; border-radius:15px; padding:20px 30px; box-shadow:0 0 15px rgba(16,185,129,0.3);
+                  transition:transform 0.5s ease, box-shadow 0.5s ease; animation:zoomIn 1.5s ease;">
+        <p style="color:#94a3b8; margin-bottom:10px;">Currently exploring</p>
+        <div style="display:flex; flex-wrap:wrap; justify-content:center; gap:10px;">
+
+          <span class="chip" style="background-color:#10B981; color:white; padding:8px 16px; border-radius:25px; font-weight:600;
+                       transition:transform 0.3s ease, box-shadow 0.3s ease;"
+                onmouseover="this.style.transform='scale(1.1)'; this.style.boxShadow='0 0 15px #10B981';"
+                onmouseout="this.style.transform='scale(1)'; this.style.boxShadow='none';">Firebase</span>
+
+          <span class="chip" style="background-color:#10B981; color:white; padding:8px 16px; border-radius:25px; font-weight:600;
+                       transition:transform 0.3s ease, box-shadow 0.3s ease;"
+                onmouseover="this.style.transform='scale(1.1)'; this.style.boxShadow='0 0 15px #10B981';"
+                onmouseout="this.style.transform='scale(1)'; this.style.boxShadow='none';">Tkinter</span>
+
+          <span class="chip" style="background-color:#10B981; color:white; padding:8px 16px; border-radius:25px; font-weight:600;
+                       transition:transform 0.3s ease, box-shadow 0.3s ease;"
+                onmouseover="this.style.transform='scale(1.1)'; this.style.boxShadow='0 0 15px #10B981';"
+                onmouseout="this.style.transform='scale(1)'; this.style.boxShadow='none';">Power BI</span>
+        </div>
+      </div>
+
+      <div style="display:flex; justify-content:center; gap:20px; margin-top:15px; animation:fadeInUp 2s ease;">
+        <a href="https://open.kattis.com/" target="_blank">
+          <button class="btn"
+            style="background:#10B981; color:white; padding:12px 28px; border:none; border-radius:10px; font-weight:bold;
+                   cursor:pointer; transition:all 0.4s ease;"
+            onmouseover="this.style.background='#059669'; this.style.transform='translateY(-5px) scale(1.05)'; this.style.boxShadow='0 0 20px #10B981';"
+            onmouseout="this.style.background='#10B981'; this.style.transform='translateY(0) scale(1)'; this.style.boxShadow='none';">
+            Kattis
+          </button>
+        </a>
+
+        <a href="https://exercism.org/" target="_blank">
+          <button class="btn"
+            style="background:transparent; border:2px solid #10B981; color:#10B981; padding:12px 28px; border-radius:10px;
+                   font-weight:bold; cursor:pointer; transition:all 0.4s ease;"
+            onmouseover="this.style.background='#10B981'; this.style.color='white'; this.style.transform='translateY(-5px) scale(1.05)'; this.style.boxShadow='0 0 20px #10B981';"
+            onmouseout="this.style.background='transparent'; this.style.color='#10B981'; this.style.transform='translateY(0) scale(1)'; this.style.boxShadow='none';">
+            Exercism
+          </button>
+        </a>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+ <section id="skills" style="padding: 80px 20px; background: linear-gradient(135deg, #0f172a, #1e293b); text-align:center; color:white; font-family: 'Poppins', sans-serif; overflow:hidden; position:relative; transition: all 1s ease;">
+  <h2 style="font-size:2.5em; margin-bottom:40px; color:#34D399; letter-spacing:1px; transform:translateY(20px); opacity:0; animation: fadeSlideIn 1.2s ease forwards;">Skills</h2>
+
+  <div style="max-width:600px; margin:auto; text-align:left; transform:translateY(20px); opacity:0; animation: fadeSlideIn 1.2s ease 0.3s forwards;">
+    <div style="margin-bottom:20px;">
+      <span style="display:block; margin-bottom:6px;">Python</span>
+      <div style="background:#1e293b;border-radius:6px;height:10px;overflow:hidden;">
+        <div style="background:#34D399;height:100%;width:0%;transition:width 1.5s ease;animation:grow80 1.5s forwards;"></div>
+      </div>
+    </div>
+
+    <div style="margin-bottom:20px;">
+      <span style="display:block; margin-bottom:6px;">JavaScript</span>
+      <div style="background:#1e293b;border-radius:6px;height:10px;overflow:hidden;">
+        <div style="background:#34D399;height:100%;width:0%;transition:width 1.5s ease;animation:grow80 1.5s 0.2s forwards;"></div>
+      </div>
+    </div>
+
+    <div style="margin-bottom:20px;">
+      <span style="display:block; margin-bottom:6px;">SQL / MySQL</span>
+      <div style="background:#1e293b;border-radius:6px;height:10px;overflow:hidden;">
+        <div style="background:#34D399;height:100%;width:0%;transition:width 1.5s ease;animation:grow75 1.5s 0.4s forwards;"></div>
+      </div>
+    </div>
+
+    <div>
+      <span style="display:block; margin-bottom:6px;">HTML & CSS</span>
+      <div style="background:#1e293b;border-radius:6px;height:10px;overflow:hidden;">
+        <div style="background:#34D399;height:100%;width:0%;transition:width 1.5s ease;animation:grow85 1.5s 0.6s forwards;"></div>
+      </div>
+    </div>
+  </div>
+
+  <div style="margin-top:50px; transform:scale(0.9); opacity:0; animation: popIn 1.5s ease 1s forwards;">
+    <svg width="120" height="120" style="transform:rotate(-90deg); filter: drop-shadow(0 0 6px #34D399);">
+      <circle cx="60" cy="60" r="50" style="stroke:#1e293b;stroke-width:10;fill:none;"></circle>
+      <circle cx="60" cy="60" r="50" style="stroke:#34D399;stroke-width:10;fill:none;stroke-dasharray:314;stroke-dashoffset:314;animation: circleFill 2s ease forwards 0.8s;"></circle>
+    </svg>
+    <strong style="display:block; margin-top:15px; font-size:1.2em;">React.js</strong>
+  </div>
+
+  <!-- Inline animation definitions -->
+  <style>
+    @keyframes fadeSlideIn {
+      from {opacity:0; transform:translateY(30px);}
+      to {opacity:1; transform:translateY(0);}
+    }
+    @keyframes grow80 {
+      from {width:0%;}
+      to {width:80%;}
+    }
+    @keyframes grow75 {
+      from {width:0%;}
+      to {width:75%;}
+    }
+    @keyframes grow85 {
+      from {width:0%;}
+      to {width:85%;}
+    }
+    @keyframes circleFill {
+      from {stroke-dashoffset:314;}
+      to {stroke-dashoffset:94;}
+    }
+    @keyframes popIn {
+      from {transform:scale(0.7); opacity:0;}
+      to {transform:scale(1); opacity:1;}
+    }
+  </style>
+</section>
+
+
+  <!-- PROJECTS -->
+  <div class="container" 
+     style="max-width:1000px; margin:auto; padding:60px 20px; text-align:center;">
+
+  <!-- Animated Gradient Heading -->
+  <h2 id="projTitle" style="
+  background: linear-gradient(90deg, #34D399, #60A5FA, #A78BFA);
+  -webkit-background-clip: text;
+  color: transparent;
+  background-size: 300% 300%;
+  animation: projTitleGradient 6s ease infinite;
+  margin-bottom: 50px;
+  opacity: 1;
+  transform: translateY(0);
+  transition: all 1s ease;">
+      
+
+      Featured Project
+  </h2>
+
+  <div class="grid" 
+       style="display:grid; 
+              grid-template-columns:repeat(auto-fit,minmax(300px,1fr)); 
+              gap:40px; 
+              justify-items:center;">
+
+    <!-- CARD 1 -->
+    <article id="proj1" 
+             style="background:#1e293b;
+                    border-radius:20px;
+                    padding:30px;
+                    box-shadow:0 0 20px rgba(52,211,153,0.1);
+                    transform:translateY(0) scale(1);
+                    opacity:1;
+                    transition:all 0.6s ease;
+                    cursor:pointer;
+                    animation:fadeInUp 1.5s ease forwards;">
+      <div style="margin-bottom:15px;">
+        <span style="display:inline-block;background:#34D39920;color:#34D399;
+                     padding:6px 14px;border-radius:12px;margin:0 4px;font-size:0.85em;
+                     transition:all 0.3s ease;">React</span>
+        <span style="display:inline-block;background:#34D39920;color:#34D399;
+                     padding:6px 14px;border-radius:12px;margin:0 4px;font-size:0.85em;
+                     transition:all 0.3s ease;">Firebase</span>
+        <span style="display:inline-block;background:#34D39920;color:#34D399;
+                     padding:6px 14px;border-radius:12px;margin:0 4px;font-size:0.85em;
+                     transition:all 0.3s ease;">Vercel</span>
+      </div>
+
+      <h3 style="margin-bottom:10px; font-size:1.5em; color:#E2E8F0;">YouTube Clone — Internship Project</h3>
+      <p style="color:#cbd5e1; font-size:0.95em; margin-bottom:20px;">
+        Premium plan execution, Video call, Screen share, and Points System.
+      </p>
+
+      <ul style="text-align:left; line-height:1.8; list-style:none; padding:0; margin-bottom:25px;">
+        <li><strong style="color:#34D399;">Frontend:</strong> React.js</li>
+        <li><strong style="color:#34D399;">Auth & DB:</strong> Firebase</li>
+        <li><strong style="color:#34D399;">Deployment:</strong> Vercel</li>
+        <li><strong style="color:#34D399;">Email:</strong> EmailJS</li>
+      </ul>
+
+      <div style="display:flex; justify-content:center; gap:15px; flex-wrap:wrap;">
+        <a href="https://mytube-nullclass.vercel.app/home" target="_blank"
+           style="padding:10px 20px; background:#34D399; color:#0f172a; 
+                  border:none; border-radius:8px; font-weight:600; 
+                  text-decoration:none; box-shadow:0 0 15px #34D39980; 
+                  transition:all 0.3s ease;
+                  transform:scale(1);"
+           onmouseover="this.style.transform='scale(1.08)'; this.style.boxShadow='0 0 25px #34D399cc';"
+           onmouseout="this.style.transform='scale(1)'; this.style.boxShadow='0 0 15px #34D39980';">
+           🔴 Live Demo
+        </a>
+        <a href="https://github.com/raji622005" target="_blank"
+           style="padding:10px 20px; border:2px solid #34D399; color:#34D399;
+                  border-radius:8px; text-decoration:none; font-weight:600;
+                  transition:all 0.3s ease;
+                  transform:scale(1);"
+           onmouseover="this.style.background='#34D399'; this.style.color='#0f172a'; this.style.transform='scale(1.08)';"
+           onmouseout="this.style.background='transparent'; this.style.color='#34D399'; this.style.transform='scale(1)';">
+           💻 Code
+        </a>
+      </div>
+    </article>
+     <!-- CARD 1 -->
+    <article id="proj1" 
+             style="background:#1e293b;
+                    border-radius:20px;
+                    padding:30px;
+                    box-shadow:0 0 20px rgba(52,211,153,0.1);
+                    transform:translateY(0) scale(1);
+                    opacity:1;
+                    transition:all 0.6s ease;
+                    cursor:pointer;
+                    animation:fadeInUp 1.5s ease forwards;">
+      <div style="margin-bottom:15px;">
+        <span style="display:inline-block;background:#34D39920;color:#34D399;
+                     padding:6px 14px;border-radius:12px;margin:0 4px;font-size:0.85em;
+                     transition:all 0.3s ease;">HTML</span>
+        <span style="display:inline-block;background:#34D39920;color:#34D399;
+                     padding:6px 14px;border-radius:12px;margin:0 4px;font-size:0.85em;
+                     transition:all 0.3s ease;">CSS</span>
+        <span style="display:inline-block;background:#34D39920;color:#34D399;
+                     padding:6px 14px;border-radius:12px;margin:0 4px;font-size:0.85em;
+                     transition:all 0.3s ease;">JavaScript</span>
+      </div>
+
+      <h3 style="margin-bottom:10px; font-size:1.5em; color:#E2E8F0;">Portfolio - Personal project</h3>
+      <p style="color:#cbd5e1; font-size:0.95em; margin-bottom:20px;">
+       About the collection of my web development projects built to learn, create, and solve real-world problems with personal information too.
+      </p>
+
+      <ul style="text-align:left; line-height:1.8; list-style:none; padding:0; margin-bottom:25px;">
+        <li><strong style="color:#34D399;">Frontend:</strong> Html,Css,JavaScript</li>
+        <li><strong style="color:#34D399;">DB:</strong> Firebase</li>
+        <li><strong style="color:#34D399;">Deployment:</strong> Vercel</li>
+        <li><strong style="color:#34D399;">Email:</strong> formspree</li>
+      </ul>
+
+        <a href="https://github.com/raji622005" target="_blank"
+           style="padding:10px 20px; border:2px solid #34D399; color:#34D399;
+                  border-radius:8px; text-decoration:none; font-weight:600;
+                  transition:all 0.3s ease;
+                  transform:scale(1);"
+           onmouseover="this.style.background='#34D399'; this.style.color='#0f172a'; this.style.transform='scale(1.08)';"
+           onmouseout="this.style.background='transparent'; this.style.color='#34D399'; this.style.transform='scale(1)';">
+           💻 Code
+        </a>
+      </div>
+    </article>
+    <!-- CARD 2 -->
+    
+  </div>
+  <div class="container" 
+     style="max-width:1000px; margin:auto; padding:60px 20px; text-align:center;">
+
+  <!-- Animated Gradient Heading -->
+  <h2 id="projTitle" 
+      style="font-size:2.5em; 
+             background:linear-gradient(90deg, #34D399, #60A5FA, #A78BFA);
+             -webkit-background-clip:text;
+             color:transparent;
+             background-size:300% 300%;
+             animation:projTitleGradient 6s ease infinite;
+             margin-bottom:50px;
+             opacity:1;
+             transform:translateY(0);
+             transition:all 1s ease;">
+      Upcoming Projects
+  </h2>
+
+  <div class="grid" 
+       style="display:grid; 
+              grid-template-columns:repeat(auto-fit,minmax(300px,1fr)); 
+              gap:40px; 
+              justify-items:center;">
+
+    <!-- CARD 1 -->
+    <article id="proj1" 
+             style="background:#1e293b;
+                    border-radius:20px;
+                    padding:30px;
+                    box-shadow:0 0 20px rgba(52,211,153,0.1);
+                    transform:translateY(0) scale(1);
+                    opacity:1;
+                    transition:all 0.6s ease;
+                    cursor:pointer;
+                    animation:fadeInUp 1.5s ease forwards;">
+      <div style="margin-bottom:15px;">
+        <span style="display:inline-block;background:#34D39920;color:#34D399;
+                     padding:6px 14px;border-radius:12px;margin:0 4px;font-size:0.85em;
+                     transition:all 0.3s ease;">React</span>
+        <span style="display:inline-block;background:#34D39920;color:#34D399;
+                     padding:6px 14px;border-radius:12px;margin:0 4px;font-size:0.85em;
+                     transition:all 0.3s ease;">Firebase</span>
+        <span style="display:inline-block;background:#34D39920;color:#34D399;
+                     padding:6px 14px;border-radius:12px;margin:0 4px;font-size:0.85em;
+                     transition:all 0.3s ease;">Vercel</span>
+      </div>
+
+      <h3 style="margin-bottom:10px; font-size:1.5em; color:#E2E8F0;">Book Loop - personal Project</h3>
+      <p style="color:#cbd5e1; font-size:0.95em; margin-bottom:20px;">
+        A platform where students can buy, sell, and exchange study-related items.
+      </p>
+
+      <ul style="text-align:left; line-height:1.8; list-style:none; padding:0; margin-bottom:25px;">
+        <li><strong style="color:#34D399;">Frontend:</strong> React.js</li>
+        <li><strong style="color:#34D399;">Auth & DB:</strong> Firebase</li>
+        <li><strong style="color:#34D399;">Deployment:</strong> Vercel</li>
+        <li><strong style="color:#34D399;">Email:</strong> EmailJS</li>
+        <li><strong style="color:#34D399;">Payment:</strong> Razorpay</li>
+      </ul>
+
+    </article>
+     <!-- CARD 1 -->
+    <article id="proj1" 
+             style="background:#1e293b;
+                    border-radius:20px;
+                    padding:30px;
+                    box-shadow:0 0 20px rgba(52,211,153,0.1);
+                    transform:translateY(0) scale(1);
+                    opacity:1;
+                    transition:all 0.6s ease;
+                    cursor:pointer;
+                    animation:fadeInUp 1.5s ease forwards;">
+      <div style="margin-bottom:15px;">
+        <span style="display:inline-block;background:#34D39920;color:#34D399;
+                     padding:6px 14px;border-radius:12px;margin:0 4px;font-size:0.85em;
+                     transition:all 0.3s ease;">HTML</span>
+        <span style="display:inline-block;background:#34D39920;color:#34D399;
+                     padding:6px 14px;border-radius:12px;margin:0 4px;font-size:0.85em;
+                     transition:all 0.3s ease;">CSS</span>
+        <span style="display:inline-block;background:#34D39920;color:#34D399;
+                     padding:6px 14px;border-radius:12px;margin:0 4px;font-size:0.85em;
+                     transition:all 0.3s ease;">JavaScript</span>
+      </div>
+
+      <h3 style="margin-bottom:10px; font-size:1.5em; color:#E2E8F0;">Restaurant - Personal project</h3>
+      <p style="color:#cbd5e1; font-size:0.95em; margin-bottom:20px;">
+       A responsive restaurant landing page highlighting food, ambience, and customer experience
+      </p>
+
+      <ul style="text-align:left; line-height:1.8; list-style:none; padding:0; margin-bottom:25px;">
+        <li><strong style="color:#34D399;">Frontend:</strong>Html,Css,JavaScript</li>
+        <li><strong style="color:#34D399;">Deployment:</strong> Vercel</li>
+      </ul>
+
+    </article>
+    <!-- CARD 2 -->
+    <article id="proj2" 
+             style="background:#1e293b; border-radius:20px; padding:40px; 
+                    display:flex; align-items:center; justify-content:center; 
+                    font-size:1.3em; font-weight:500; color:#9ca3af; 
+                    transform:translateY(0) scale(1);
+                    opacity:1;
+                    transition:all 0.8s ease;
+                    animation:fadeInUp 2s ease forwards;">
+      <h3 style="color:#34D399;">More Projects Coming Soon...</h3>
+    </article>
+  </div>
+
+
+  <!-- KEYFRAME STYLES (inline via <style>) -->
+  <style>
+    @keyframes fadeInUp {
+      0% {opacity:0; transform:translateY(40px) scale(0.95);}
+      100% {opacity:1; transform:translateY(0) scale(1);}
+    }
+
+    @keyframes projTitleGradient {
+      0% {background-position:0% 50%;}
+      50% {background-position:100% 50%;}
+      100% {background-position:0% 50%;}
+    }
+
+    #proj1:hover {
+      transform:translateY(-10px) scale(1.02);
+      box-shadow:0 0 30px rgba(52,211,153,0.4);
+    }
+
+    #proj2:hover {
+      transform:translateY(-8px) scale(1.02);
+      box-shadow:0 0 25px rgba(52,211,153,0.2);
+    }
+  </style>
+</div>
+
+
+
+  <!-- CONTACT -->
+  <section id="contact" aria-label="Contact">
+    <div class="container reveal">
+      <h2>Contact Me</h2>
+        <p style="font-size:1.1em; color:#E2E8F0; margin-bottom:15px; opacity:0; transform:translateY(20px); animation:fadeInUp 1.5s ease forwards;">
+    ✉️ Email: 
+    <a href="mailto:rajalakshmiaruna2005@gmail.com"
+       style="color:#60A5FA; text-decoration:none; font-weight:600;
+              position:relative; transition:all 0.4s ease;"
+       onmouseover="this.style.color='#34D399'; this.style.textShadow='0 0 8px #34D399';"
+       onmouseout="this.style.color='#60A5FA'; this.style.textShadow='none';">
+       rajalakshmiaruna2005@gmail.com
+    </a>
+  </p>
+
+  <!-- LinkedIn -->
+  <p style="font-size:1.1em; color:#E2E8F0; opacity:0; transform:translateY(20px); animation:fadeInUp 2s ease forwards;">
+    💼 LinkedIn: 
+    <a href="https://linkedin.com/in/rajalakshmi" target="_blank"
+       style="color:#60A5FA; text-decoration:none; font-weight:600;
+              position:relative; transition:all 0.4s ease;"
+       onmouseover="this.style.color='#34D399'; this.style.textShadow='0 0 8px #34D399';"
+       onmouseout="this.style.color='#60A5FA'; this.style.textShadow='none';">
+       linkedin.com/in/rajalakshmi
+    </a>
+  </p>
+      
+      
+      <form action="https://formspree.io/f/xqawzgdq" method="POST"
+        style="max-width:500px;margin:40px auto;background:#0b1120;padding:30px;border-radius:15px;box-shadow:0 4px 15px rgba(0,0,0,0.3);text-align:center;">
+        <label style="display:block;margin-bottom:15px;text-align:left;color:#cbd5e1;font-weight:600;">Your Email:
+          <input type="email" name="email" required placeholder="Enter your email"
+            style="width:100%;padding:10px;margin-top:6px;border-radius:8px;border:1px solid #94a3b8;background:#f8fafc;font-size:14px;" />
+        </label>
+        <label style="display:block;margin-bottom:20px;text-align:left;color:#cbd5e1;font-weight:600;">Your Message:
+          <textarea name="message" rows="5" required placeholder="Type your message..."
+            style="width:100%;padding:10px;margin-top:6px;border-radius:8px;border:1px solid #94a3b8;background:#f8fafc;font-size:14px;"></textarea>
+        </label>
+        <button type="submit" style="background:#10b981;color:white;padding:10px 25px;border:none;border-radius:8px;cursor:pointer;font-weight:600;"
+          onmouseover="this.style.background='#059669'" onmouseout="this.style.background='#10b981'">Send</button>
+      </form>
+    </div>
+  </section>
+
+  <!-- Back to Top -->
+  <a href="#home" id="toTop">⬆️</a>
+
+  <!-- SCRIPT -->
+  <script>
+    function openModal() {
+      document.getElementById("imageModal").style.display = "flex";
+    }
+    function closeModal() {
+      document.getElementById("imageModal").style.display = "none";
+    }
+
+    // Optional: glow effect loop on profile
+    const profile = document.querySelector(".profile");
+    profile.addEventListener("mouseover", () => {
+      profile.style.animation = "glow 1.5s ease-in-out infinite alternate";
+    });
+    profile.addEventListener("mouseout", () => {
+      profile.style.animation = "zoomIn 1.2s ease";
+    });
+    // ===== MENU =====
+    const menuBtn = document.getElementById('menuBtn');
+    const navLinks = document.getElementById('navLinks');
+    menuBtn.addEventListener('click', () => {
+      menuBtn.classList.toggle('active');
+      navLinks.classList.toggle('open');
+    });
+    document.querySelectorAll('.nav-links a').forEach(link => {
+      link.addEventListener('click', () => {
+        navLinks.classList.remove('open');
+        menuBtn.classList.remove('active');
+      });
+    });
+    
+    // ===== REVEAL =====
+    const revealEls = document.querySelectorAll('.reveal');
+    const observer = new IntersectionObserver(entries => {
+      entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('on'); });
+    }, { threshold: 0.2 });
+    revealEls.forEach(el => observer.observe(el));
+
+    // ===== BACK TO TOP =====
+    const toTop = document.getElementById('toTop');
+    window.addEventListener('scroll', () => {
+      if (window.scrollY > 400) toTop.classList.add('show');
+      else toTop.classList.remove('show');
+    });
+
+    // ===== IMAGE MODAL =====
+    function openModal() {
+      document.getElementById("imageModal").style.display = "flex";
+    }
+    function closeModal() {
+      document.getElementById("imageModal").style.display = "none";
+    }
+  </script>
+</body>
+</html>
